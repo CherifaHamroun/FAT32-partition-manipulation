@@ -138,19 +138,10 @@ int Cluster_Suivant(char disque_physique[] ,int numCluster){
 }
 
 
-void lire_entree(Entree* entree)
-{
-    if (entree->nomf[0] != 0xE5 && entree->attrib != 0xf)
-    printf(GREEN("\nFichier trouve!\n\t1er octet : %02x\n\tnom+ext: %s\n\textension: %s\n\tattrib: %x\n\ttaille: %u\n\n"), (unsigned char)entree->nomf[0], entree->nomf, entree->extension, (int8_t) entree->attrib, entree->taillef);
-	else if (entree->nomf[0] == 0xE5 && entree->attrib != 0xf)
-	printf(RED("\nFichie supprime!\n\t1er octet : %02x\n\tnom+ext: %s\n\textension: %s\n\tattrib: %x\n\ttaille: %u\n\n"), (unsigned char)entree->nomf[0], entree->nomf, entree->extension, (int8_t) entree->attrib, entree->taillef);
-}
-
 void lire_cluster(char disque_physique[],int cluster)
 {
     printf("[LireCluster] cluster = %d\n", cluster);
     unsigned char buffer[TailleSecteur];
-    printf("[?] root directory devrait etre a %d\n", AdrRacine);
     for (int i = 0; i < secteurParCluster; i++)
 	{
 		lire_secteur(disque_physique, AdrRacine/TailleSecteur + (cluster - ClusterRacine) * secteurParCluster+i, buffer);
@@ -158,12 +149,15 @@ void lire_cluster(char disque_physique[],int cluster)
 		Entree* entree = (Entree*) buffer;
 		for (int j = 0; j < TailleSecteur / sizeof(Entree) && entree[j].nomf[0] != '\0'; j++)
         {
-            printf("[?] entree = %p\n", j);
+            //printf("[?] entree = %d\n", j);
+            int8_t mask=0x0010;
+            int8_t test = mask&(int8_t) entree[j].attrib;
+            char type[7];
+            if (test!=0){char dossier[]="Dossier";strcpy(type,dossier);} else{char fich[]="Fichier";strcpy(type,fich);}
 			if (entree[j].nomf[0] != 0xE5 && entree[j].attrib != 0xf)
-            printf(GREEN("\nFichier trouve!\n\t1er octet : %02x\n\tnom+ext: %s\n\textension: %s\n\tattrib: %x\n\ttaille: %u\n\n"), (unsigned char)entree[j].nomf[0], entree[j].nomf, entree[j].extension, (int8_t) entree[j].attrib, entree[j].taillef);
+            printf(GREEN("\nElementtrouve!\n\tnom+ext: %s\n\textension: %s\n\ttype: %s\n\ttaille: %u\n\n"), entree[j].nomf, entree[j].extension, type, entree[j].taillef);
 			else if (entree[j].nomf[0] == 0xE5 && entree[j].attrib != 0xf)
-			printf(RED("\nFichie supprime!\n\t1er octet : %02x\n\tnom+ext: %s\n\textension: %s\n\tattrib: %x\n\ttaille: %u\n\n"), (unsigned char)entree[j].nomf[0], entree[j].nomf, entree[j].extension, (int8_t) entree[j].attrib, entree[j].taillef);
-            //lire_entree(entree[j]);
+			printf(RED("\nElement supprime!\n\tnom+ext: %s\n\textension: %s\n\ttype: %s\n\ttaille: %u\n\n"), entree[j].nomf, entree[j].extension, type, entree[j].taillef);
         }
 	}      
 } 
