@@ -191,13 +191,13 @@ void lire_cluster(char disque_physique[],int cluster)
             char type[7];
             if (test!=0){char dossier[]="Dossier";strcpy(type,dossier);} else{char fich[]="Fichier";strcpy(type,fich);}
 			if (entree[j].nomf[0] != 0xE5 && entree[j].attrib != 0xf){
-            printf(Blue("\n\t\t\tFichier trouve!\n\t\t\t\tnom+ext: %s\n\t\t\t\textension: %s\n\t\t\t\ttype: %s\n\t\t\t\ttaille: %u\n"), entree[j].nomf, entree[j].extension, type, entree[j].taillef);
-            printf(Blue("\t\t\t\tPremier Cluster du fichier: %u %u\n"), entree[j].high_numero_premier_cluster_fat,entree[j].low_numero_premier_cluster_fat);
-            printf(Blue("\t\t\t\tPere : / \n"));
+            printf(Yellow("\n\t\t\tFichier trouve!\n\t\t\t\tnom+ext: %s\n\t\t\t\textension: %s\n\t\t\t\ttype: %s\n\t\t\t\ttaille: %u\n"), entree[j].nomf, entree[j].extension, type, entree[j].taillef);
+            printf(Yellow("\t\t\t\tPremier Cluster du fichier: %u %u\n"), entree[j].high_numero_premier_cluster_fat,entree[j].low_numero_premier_cluster_fat);
+            printf(Yellow("\t\t\t\tPere : / \n"));
 
             }
 			else if (entree[j].nomf[0] == 0xE5 && entree[j].attrib != 0xf)
-			printf(Yellow("\n\t\t\tElement supprime!\n\t\t\t\tnom+ext: %s\n\t\t\t\textension: %s\n\t\t\t\ttype: %s\n\t\t\t\ttaille: %u\n"), entree[j].nomf, entree[j].extension, type, entree[j].taillef);
+			printf(Blue("\n\t\t\tElement supprime!\n\t\t\t\tnom+ext: %s\n\t\t\t\textension: %s\n\t\t\t\ttype: %s\n\t\t\t\ttaille: %u\n"), entree[j].nomf, entree[j].extension, type, entree[j].taillef);
         }
 	}      
 } 
