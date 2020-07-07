@@ -30,19 +30,16 @@ void InitParametres(){
     printf("\tAdr debut FAT :%d\n",AdrDebutFAT);
     printf("--------------------------------------------------\n");
 }
-int Cluster_Suivant(char disque_physique[] ,int numCluster){
-    FILE *disks=NULL;
-    char chemains[10]="/dev/";
-    disks = fopen(strcat(chemains,disque_physique),"rb");    
+int Cluster_Suivant(int numCluster){  
     InitParametres();
     int ns,ss,taille;
     taille=4;
     unsigned char buffer[4];
     long int depl=taille*numCluster;
-    if(disks == NULL) printf("\n Erreur le disque physique1 n'est pas ouvert\n" );
+    if(fichier == NULL) printf("\n Erreur le disque physique1 n'est pas ouvert\n" );
     else{ 
-        ss=fseek(disks, AdrDebutFAT+depl, SEEK_SET); 
-        ns=fread(buffer,taille, 1, disks);  
+        ss=fseek(fichier, AdrDebutFAT+depl, SEEK_SET); 
+        ns=fread(buffer,taille, 1, fichier);  
         if(ns<=0) printf("\n Erreur de fread = %d ",ns);         
         else printf("\n Lecture du cluster %d , Nombre d’éléments lus =%d\n",numCluster,ns); 
          for(int j=0; j<4; j++)
@@ -83,6 +80,7 @@ int Cluster_Suivant(char disque_physique[] ,int numCluster){
         printf("\n");
     }
 }
+
 int main(){
 	printf("Veuillez entrer le disque_physique: ");
 	char disque[10];
@@ -97,7 +95,7 @@ int main(){
     printf("Veuillez entrer le numero du Cluster a lire: ");
 	int num;
 	scanf("%d",&num);
-    int pro = Cluster_Suivant(disque,num);
+    int pro = Cluster_Suivant(num);
     printf("%d",pro);
     int n,s,taille;
     taille=512;
