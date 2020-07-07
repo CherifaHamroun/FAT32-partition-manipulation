@@ -104,7 +104,7 @@ else{
 void afficher_secteur(char disque_physique[] , int numSecteur){
 
 unsigned char buffer[512];
-lire_secteur(disque_physique,numSecteur,&buffer);
+lire_secteur(disque_physique,numSecteur,buffer);
     printf("\n");
 	printf("\t\t\t\t[%d]\t ",0);
 for(int j=0; j<512; j++)
@@ -191,7 +191,7 @@ void lire_cluster(char disque_physique[],int cluster)
             char type[7];
             if (test!=0){char dossier[]="Dossier";strcpy(type,dossier);} else{char fich[]="Fichier";strcpy(type,fich);}
 			if (entree[j].nomf[0] != 0xE5 && entree[j].attrib != 0xf){
-            printf(Blue("\n\t\t\tFichier trouve!\n\t\t\t\tnom+ext: %s\n\t\t\t\textension: %s\n\t\t\t\tattrib: %x\n\t\t\t\ttaille: %u\n"), entree[j].nomf, entree[j].extension, (int8_t) entree[j].attrib, entree[j].taillef);
+            printf(Blue("\n\t\t\tFichier trouve!\n\t\t\t\tnom+ext: %s\n\t\t\t\textension: %s\n\t\t\t\ttype: %s\n\t\t\t\ttaille: %u\n"), entree[j].nomf, entree[j].extension, type, entree[j].taillef);
             printf(Blue("\t\t\t\tPremier Cluster du fichier: %u %u\n"), entree[j].high_numero_premier_cluster_fat,entree[j].low_numero_premier_cluster_fat);
             printf(Blue("\t\t\t\tPere : / \n"));
 
